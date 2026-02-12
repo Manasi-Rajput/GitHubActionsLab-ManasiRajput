@@ -1,0 +1,63 @@
+## YAML Template.
+---
+name: Multi-Platform Workflow
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+
+  ubuntu-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print OS information
+        run: |
+          echo "Running on Ubuntu"
+          uname -a
+
+      - name: Create and display file
+        run: |
+          echo "Hello from Ubuntu runner!" > ubuntu.txt
+          cat ubuntu.txt
+
+
+  windows-job:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print OS information
+        run: |
+          echo Running on Windows
+          systeminfo
+
+      - name: Create and display file
+        run: |
+          echo Hello from Windows runner! > windows.txt
+          type windows.txt
+
+
+  macos-job:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print OS information
+        run: |
+          echo "Running on macOS"
+          uname -a
+
+      - name: Create and display file
+        run: |
+          echo "Hello from macOS runner!" > macos.txt
+          cat macos.txt
