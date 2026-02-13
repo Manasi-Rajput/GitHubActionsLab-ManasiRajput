@@ -1,30 +1,24 @@
-# GitHub Actions Lab
-
-This repository contains various workflows that demonstrate the use of GitHub Actions in continuous integration and continuous deployment (CI/CD) processes.
-
 ## Workflows
 
-### 1. Build and Test
-- **Purpose:** This workflow is triggered on push events to ensure that the code builds successfully and passes all tests.
-- **Key Concepts:** It utilizes actions to check out the code, install dependencies, and run testing frameworks.
-- **Challenges:** Managing dependencies effectively and ensuring that tests run in a clean environment were significant challenges.
+### 1. Dependent Jobs Workflow (Build → Test → Deploy)
+- **Purpose:** This workflow runs when code is pushed to the main branch. It ensures the project builds successfully, passes all tests, and only then proceeds to deployment.
+- **Key Concepts:** Uses `runs-on` to define the operating system and `needs` to control job dependencies. Jobs execute in order: build → test → deploy. Also uses `actions/checkout` and `actions/setup-java` to prepare the environment.
+- **Challenges:** Understanding how the `needs` keyword controls job order was initially challenging. Ensuring the correct folder structure (.github/workflows/) was required for the workflow to trigger properly.
 
-### 2. Deploy to Production
-- **Purpose:** This workflow deploys the application to the production environment whenever changes are merged into the main branch.
-- **Key Concepts:** It includes steps for versioning, building artifacts, and deploying them to a cloud service.
-- **Challenges:** Handling authentication securely and ensuring zero downtime during deployments were key challenges faced.
-
-### 3. Notifications
-- **Purpose:** This workflow sends notifications to the team when a build fails or succeeds.
-- **Key Concepts:** It uses GitHub Actions to send messages to Slack or email based on the workflow's outcome.
-- **Challenges:** Configuring webhooks and managing API tokens securely posed challenges.
+### 2. Multi-Platform Workflow
+- **Purpose:** This workflow runs on pull requests to the main branch. It verifies that the project can run across multiple operating systems.
+- **Key Concepts:** Demonstrates `runs-on` with different environments (ubuntu-latest, windows-latest, macos-latest). The jobs run independently and in parallel. Each job executes OS-specific commands and creates a simple file.
+- **Challenges:** Handling OS-specific commands such as `uname -a` for Linux/macOS and `systeminfo` for Windows required understanding platform differences.
 
 ## Key Concepts Demonstrated
-- Automation of development workflows
-- Continuous integration and continuous deployment
-- Use of community actions to streamline processes
+- Automation of development workflows using GitHub Actions
+- Continuous Integration through automated build and test processes
+- Job dependencies using `needs`
+- Multi-platform execution using `runs-on`
+- Environment setup using reusable GitHub Actions
 
 ## Challenges Faced
-- Ensuring reliable workflows that respond appropriately to failures
-- Managing environment variables and secrets securely
-- Maintaining documentation for workflows and scripts
+- Ensuring workflows triggered correctly on push and pull request events
+- Understanding job execution order using dependencies
+- Configuring Java consistently across runners
+- Troubleshooting workflow failures due to configuration issues
